@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class UpgradeStats : MonoBehaviour
 {
     [SerializeField] private StatToUpgrade statToUpgrade;
-    [SerializeField] private CharacterStats characterStats;
     [SerializeField] private Text costText;
     [SerializeField] private int cost;
     [SerializeField] private int upgradeValue;
@@ -13,22 +12,27 @@ public class UpgradeStats : MonoBehaviour
     private void Awake()
     {
         costText.text = cost.ToString();
-        statValue.text = characterStats.GetStatValue(statToUpgrade).ToString();
+        statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
     }
 
     public void UpgradeStat()
     {
         if (CheckEnoughGold())
         {
-            characterStats.UpgradeStat(statToUpgrade, upgradeValue);
-            characterStats.DecreaseCoins(cost);
-            statValue.text = characterStats.GetStatValue(statToUpgrade).ToString();
+            HeroesManager.instance.CurrentHero.UpgradeStat(statToUpgrade, upgradeValue);
+            HeroesManager.instance.CurrentHero.DecreaseCoins(cost);
+            statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
         }
     }
 
     private bool CheckEnoughGold()
     {
-        return characterStats.Coins >= cost;
+        return HeroesManager.instance.CurrentHero.Coins >= cost;
+    }
+
+    private void OnEnable()
+    {
+        statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
     }
 
 }

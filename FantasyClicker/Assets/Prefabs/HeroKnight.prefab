@@ -137,7 +137,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &4967755362299433663
 Animator:
   serializedVersion: 4
@@ -209,3 +209,6 @@ MonoBehaviour:
   damage: 15
   critDamage: 3
   critChance: 5
+  abilities:
+  - {fileID: 11400000, guid: de02c35e95d44d841be9259c88a7aca1, type: 2}
+  - {fileID: 11400000, guid: 698b9b014b2ad234a92359cbee01885a, type: 2}

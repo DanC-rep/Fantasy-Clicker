@@ -3,13 +3,16 @@ using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
-    [SerializeField] private CharacterStats playerStats;
     [SerializeField] private Text money;
 
-    private void Update()
+    private void Awake()
     {
-        money.text = playerStats.Coins.ToString();
+        EventManager.OnCharacterInstantiated.AddListener(SetPlayerCoins);
+        EventManager.OnCharacterCoinsChanged.AddListener(SetPlayerCoins);
     }
 
-    // Изменить работу с монетами, когда игрок будет создаваться через Instantiate, работа будет происходить через события
+    private void SetPlayerCoins(CharacterStats stats)
+    {
+        money.text = stats.Coins.ToString();
+    }
 }

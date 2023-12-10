@@ -11,6 +11,8 @@ public class Character : MonoBehaviour, IAttacker
         attackController = new AttackController();
         stats = GetComponent<CharacterStats>();
         animator = GetComponent<CharacterAnimator>();
+
+        EventManager.SendCharacterInstantiated(stats);
     }
 
     public void Attack()
