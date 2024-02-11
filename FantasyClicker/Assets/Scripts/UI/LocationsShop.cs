@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,6 +9,10 @@ public class LocationsShop : MonoBehaviour
 
     [SerializeField] private Image locationImage;
     [SerializeField] private Text[] bonuses;
+
+    [SerializeField] private Button chooseLocationBtn;
+    [SerializeField] private Button purchaseLocationBtn;
+    [SerializeField] private Text costText;
 
     private int pageNum;
 
@@ -23,7 +28,6 @@ public class LocationsShop : MonoBehaviour
             pageNum += 1;
 
             SetLocationData();
-
         }
     }
 
@@ -50,6 +54,33 @@ public class LocationsShop : MonoBehaviour
         {
             bonuses[i].text = locations[pageNum].Bonuses[i];
         }
+
+        SetBtnToTakeLocation();
     }
 
+    public void PurchaseLocation()
+    {
+        if (PlayerCoins.instance.CheckEnoughCoins(locations[pageNum].Cost))
+        {
+            PlayerCoins.instance.DecreaseCoins(locations[pageNum].Cost);
+            locations[pageNum].Purchased = true;
+
+            SetBtnToTakeLocation();
+        }
+    }
+
+	private void SetBtnToTakeLocation()
+	{
+		if (locations[pageNum].Purchased)
+		{
+			purchaseLocationBtn.gameObject.SetActive(false);
+			chooseLocationBtn.gameObject.SetActive(true);
+		}
+		else
+		{
+			chooseLocationBtn.gameObject.SetActive(false);
+			purchaseLocationBtn.gameObject.SetActive(true);
+			costText.text = locations[pageNum].Cost.ToString();
+		}
+	}
 }

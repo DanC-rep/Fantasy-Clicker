@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -17,18 +18,20 @@ public class BonusManager : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.OnBonusDestroyed.AddListener(SpawnNewBonus);
-        SpawnNewBonus();
+        EventManager.OnBonusDestroyed.AddListener(StartSpawnNewBonus);
+        StartSpawnNewBonus();
     }
 
-    private async void SpawnNewBonus()
+    private IEnumerator SpawnNewBonus()
     {
         int timeToWait = Random.Range(minTimeToSpawn, maxTimeToSpawn);
-        await Task.Delay(timeToWait);
+        yield return new WaitForSeconds(timeToWait);
 
         int bonusNum = Random.Range(0, bonuses.Length);
         Vector2 spawnPos = new Vector2(Random.Range(spawnXmin, spawnXmax), spawnY);
 
         Instantiate(bonuses[bonusNum], spawnPos, bonuses[bonusNum].transform.rotation, spawnParent);
     }
+
+    private void StartSpawnNewBonus() => StartCoroutine(SpawnNewBonus());
 }
