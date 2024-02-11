@@ -71,10 +71,10 @@ public class AbilityButton : MonoBehaviour
 
     private void PurchaseAbility()
     {
-        if (PlayerCoins.instance.Coins - abilityData.Cost >= 0)
+        if (HeroesManager.instance.CurrentHero.Coins - abilityData.Cost >= 0)
         {
             abilityData.Purchased = true;
-            PlayerCoins.instance.DecreaseCoins(abilityData.Cost);
+            HeroesManager.instance.CurrentHero.DecreaseCoins(abilityData.Cost);
             purchaseImg.SetActive(false);
         }
     }

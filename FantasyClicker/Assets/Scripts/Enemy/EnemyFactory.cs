@@ -4,12 +4,10 @@ public class EnemyFactory : MonoBehaviour
 {
     public static EnemyFactory instance;
 
+    [SerializeField] private GameObject[] enemies;
     [SerializeField] private Transform spawnPos;
-    [SerializeField] private LocationData location;
 
-	private GameObject[] enemies => location.UnlockedEnemies;
-
-	private IEnemyInfo currentEnemy;
+    private IEnemyInfo currentEnemy;
     public IEnemyInfo CurrentEnemy => currentEnemy;
 
     private void Awake()

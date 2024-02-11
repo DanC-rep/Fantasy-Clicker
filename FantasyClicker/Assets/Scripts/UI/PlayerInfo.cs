@@ -7,16 +7,12 @@ public class PlayerInfo : MonoBehaviour
 
     private void Awake()
     {
+        EventManager.OnCharacterInstantiated.AddListener(SetPlayerCoins);
         EventManager.OnCharacterCoinsChanged.AddListener(SetPlayerCoins);
     }
 
-	private void Start()
-	{
-		SetPlayerCoins();
-	}
-
-	private void SetPlayerCoins()
+    private void SetPlayerCoins(CharacterStats stats)
     {
-        money.text = PlayerCoins.instance.Coins.ToString();
+        money.text = stats.Coins.ToString();
     }
 }

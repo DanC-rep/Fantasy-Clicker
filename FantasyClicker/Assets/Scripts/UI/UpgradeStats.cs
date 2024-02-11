@@ -7,9 +7,7 @@ public class UpgradeStats : MonoBehaviour
     [SerializeField] private Text costText;
     [SerializeField] private int cost;
     [SerializeField] private int upgradeValue;
-    [SerializeField] private int maxUpgradeLvl;
     [SerializeField] private Text statValue;
-    [SerializeField] private Button purchaseBtn;
 
     private void Awake()
     {
@@ -19,34 +17,22 @@ public class UpgradeStats : MonoBehaviour
 
     public void UpgradeStat()
     {
-        if (CheckEnoughGold() && CheckNotReachMaxLvl(statToUpgrade))
+        if (CheckEnoughGold())
         {
             HeroesManager.instance.CurrentHero.UpgradeStat(statToUpgrade, upgradeValue);
-            PlayerCoins.instance.DecreaseCoins(cost);
+            HeroesManager.instance.CurrentHero.DecreaseCoins(cost);
             statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
         }
-
-        DisablePurchaseBtnOnMaxLvl();
     }
 
     private bool CheckEnoughGold()
     {
-        return PlayerCoins.instance.Coins >= cost;
+        return HeroesManager.instance.CurrentHero.Coins >= cost;
     }
 
     private void OnEnable()
     {
         statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
-    }
-
-    private bool CheckNotReachMaxLvl(StatToUpgrade stat) => HeroesManager.instance.CurrentHero.GetStatLvl(stat) < maxUpgradeLvl;
-
-    private void DisablePurchaseBtnOnMaxLvl()
-    {
-        if (!CheckNotReachMaxLvl(statToUpgrade))
-        {
-            purchaseBtn.interactable = false;
-        }
     }
 
 }

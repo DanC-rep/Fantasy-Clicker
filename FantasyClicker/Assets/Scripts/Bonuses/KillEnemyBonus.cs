@@ -1,5 +1,6 @@
 public class KillEnemyBonus : Bonus
 {
+
     private void OnMouseDown()
     {
         Use();
