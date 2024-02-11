@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -6,10 +7,11 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private int critDamage;
     [SerializeField] private int critChance;
 
-    [SerializeField] private AbilityData[] abilities;
+    private int damageLvl;
+    private int critDamageLvl;
+    private int critChanceLvl;
 
-    private int coins;
-    public int Coins => coins;
+    [SerializeField] private AbilityData[] abilities;
 
     public int Damage => damage;
     public int CritChance => critChance;
@@ -19,35 +21,21 @@ public class CharacterStats : MonoBehaviour
     public bool AbilityCell1Occupied { get; set; }
     public bool AbilityCell2Occupied { get; set; }
 
-    private void Awake()
-    {
-        EventManager.OnCharacterRewarded.AddListener(AddCoins);
-    }
-
-    private void AddCoins(int reward)
-    {
-        coins += reward;
-        EventManager.SendCharacterCoinsChanged(this);
-    }
-
-    public void DecreaseCoins(int value)
-    {
-        coins -= value;
-        EventManager.SendCharacterCoinsChanged(this);
-    }
-
     public void UpgradeStat(StatToUpgrade stat, int value)
     {
         switch (stat)
         {
             case StatToUpgrade.Damage:
                 damage += value;
+                damageLvl += 1;
                 break;
             case StatToUpgrade.CritDamage:
                 critDamage += value;
+                critDamageLvl += 1;
                 break;
             case StatToUpgrade.CritChance:
                 critChance += value;
+                critChanceLvl += 1;
                 break;
         }
     }
@@ -65,5 +53,28 @@ public class CharacterStats : MonoBehaviour
             default:
                 return 0;
         }
+    }
+
+    public int GetStatLvl(StatToUpgrade stat)
+    {
+		switch (stat)
+		{
+			case StatToUpgrade.Damage:
+				return damageLvl;
+			case StatToUpgrade.CritDamage:
+				return critDamageLvl;
+			case StatToUpgrade.CritChance:
+				return critChanceLvl;
+			default:
+				return 0;
+		}
+	}
+
+    public async void DoubleDamage()
+    {
+        int currentDmg = damage;
+        damage *= 2;
+        await Task.Delay(5000);
+        damage = currentDmg;
     }
 }

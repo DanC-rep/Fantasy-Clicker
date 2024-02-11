@@ -9,7 +9,7 @@ public class EventManager
     public static UnityEvent<IEnemyInfo> OnEnemyDamaged = new UnityEvent<IEnemyInfo>();
     public static UnityEvent<int> OnCharacterRewarded = new UnityEvent<int>();
     public static UnityEvent<CharacterStats> OnCharacterInstantiated = new UnityEvent<CharacterStats>();
-    public static UnityEvent<CharacterStats> OnCharacterCoinsChanged = new UnityEvent<CharacterStats>();
+    public static UnityEvent OnCharacterCoinsChanged = new UnityEvent();
     public static UnityEvent OnBonusDestroyed = new UnityEvent();
 
     public static void SendCharacterAttacked(int damage) => OnCharacterAttacked.Invoke(damage);
@@ -18,6 +18,6 @@ public class EventManager
     public static void SendEnemyDamaged(IEnemyInfo enemyInfo) => OnEnemyDamaged.Invoke(enemyInfo);
     public static void SendCharacterRewarded(int coins) => OnCharacterRewarded.Invoke(coins);
     public static void SendCharacterInstantiated(CharacterStats stats) => OnCharacterInstantiated.Invoke(stats);
-    public static void SendCharacterCoinsChanged(CharacterStats stats) => OnCharacterCoinsChanged.Invoke(stats);
+    public static void SendCharacterCoinsChanged() => OnCharacterCoinsChanged.Invoke();
     public static void SendBonusDestroyed() => OnBonusDestroyed.Invoke();
 }
