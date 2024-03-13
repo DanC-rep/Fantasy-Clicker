@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e8bc218d558374499bd133d3d8949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 140
-  name: Goblin
-  reward: 6
+  maxHealth: 80
+  name: "\u0413\u043E\u0431\u043B\u0438\u043D"
+  reward: 3
+  killCount: 0
+  id: 3
 --- !u!114 &5095060266100325006
 MonoBehaviour:
   m_ObjectHideFlags: 0

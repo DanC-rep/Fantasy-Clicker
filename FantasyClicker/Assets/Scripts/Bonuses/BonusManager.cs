@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using YG;
 
 public class BonusManager : MonoBehaviour
 {
@@ -16,13 +17,30 @@ public class BonusManager : MonoBehaviour
 
     [SerializeField] private float spawnY;
 
-    private void Awake()
+    private void Start()
     {
-        EventManager.OnBonusDestroyed.AddListener(StartSpawnNewBonus);
-        StartSpawnNewBonus();
+        StartCoroutine(CheckCanSpawnBonuses());
+	}
+
+    private IEnumerator CheckCanSpawnBonuses()
+    {
+        while (!YandexGame.SDKEnabled)
+        {
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        if (YandexGame.savesData.TutorialShowed)
+        {
+            EventManager.OnBonusDestroyed.AddListener(StartSpawnNewBonus);
+            StartSpawnNewBonus();
+        }
+        else
+        {
+			EventManager.OnTutorialShowed.AddListener(StartSpawnBonuses);
+		}
     }
 
-    private IEnumerator SpawnNewBonus()
+	private IEnumerator SpawnNewBonus()
     {
         int timeToWait = Random.Range(minTimeToSpawn, maxTimeToSpawn);
         yield return new WaitForSeconds(timeToWait);
@@ -34,4 +52,13 @@ public class BonusManager : MonoBehaviour
     }
 
     private void StartSpawnNewBonus() => StartCoroutine(SpawnNewBonus());
+
+    private void StartSpawnBonuses(bool showed)
+    {
+        if (showed)
+        {
+			EventManager.OnBonusDestroyed.AddListener(StartSpawnNewBonus);
+			StartSpawnNewBonus();
+		}
+    }
 }

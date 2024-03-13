@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e8bc218d558374499bd133d3d8949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
-  name: Wizard
-  reward: 50
+  maxHealth: 4500
+  name: "\u041C\u0430\u0433"
+  reward: 16
+  killCount: 0
+  id: 11
 --- !u!114 &7750856211470402425
 MonoBehaviour:
   m_ObjectHideFlags: 0

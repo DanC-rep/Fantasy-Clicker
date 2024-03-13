@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26430a2eb6121e5478daea67c6637968, type: 3}
   m_Name: IronKnight
   m_EditorClassIdentifier: 
-  cost: 500
+  id: 4
+  cost: 3500
   icon: {fileID: 21300000, guid: b088f5d216a70e746890bb9921c419c8, type: 3}
   hero: {fileID: 6112659188107033386, guid: e3470e18c3bdb4043b44391d8d35e4d1, type: 3}
   unlockLocation: {fileID: 11400000, guid: 83c3f7e1153cb2048bb3d004cf9b5078, type: 2}
-  purchased: 0
+  purchased: 1
+  damage: 50
+  critChance: 20
+  critDamage: 25
+  damageLvl: 0
+  critDamageLvl: 0
+  critChanceLvl: 0

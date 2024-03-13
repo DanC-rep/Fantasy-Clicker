@@ -1,4 +1,8 @@
+using System.Collections;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using UnityEngine;
+using YG;
 
 public class EnemyFactory : MonoBehaviour
 {
@@ -6,11 +10,14 @@ public class EnemyFactory : MonoBehaviour
 
     [SerializeField] private Transform spawnPos;
     [SerializeField] private LocationData location;
+    [SerializeField] private FullscreenCounter fullscreeCounter;
 
 	private GameObject[] enemies => location.UnlockedEnemies;
 
 	private IEnemyInfo currentEnemy;
     public IEnemyInfo CurrentEnemy => currentEnemy;
+
+    private int enemyCounterAd;
 
     private void Awake()
     {
@@ -19,15 +26,41 @@ public class EnemyFactory : MonoBehaviour
             return;
         }
         instance = this;
+    }
 
-        InstantiateNewEnemy();
-        EventManager.OnEnemyDestroyed.AddListener(InstantiateNewEnemy);
+	private void Start()
+	{
+		InstantiateNewEnemy();
+		EventManager.OnEnemyDestroyed.AddListener(InstantiateNewEnemy);
+	}
+
+	private IEnumerator InstantiateNewEnemyCor()
+    {
+        while (!Transator.instance.NamesAreSet)
+        {
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        if (currentEnemy != null)
+        {
+			Statistic.instance.UpdateEnemyStatistic(currentEnemy);
+		}
+
+        int enemyNum = Random.Range(0, enemies.Length);
+        currentEnemy = Instantiate(enemies[enemyNum], spawnPos.position, enemies[enemyNum].transform.rotation, transform).GetComponent<IEnemyInfo>();
+        EventManager.SendEnemyInstantiated(currentEnemy);
     }
 
     private void InstantiateNewEnemy()
     {
-        int enemyNum = Random.Range(0, enemies.Length);
-        currentEnemy = Instantiate(enemies[enemyNum], spawnPos.position, enemies[enemyNum].transform.rotation, transform).GetComponent<IEnemyInfo>();
-        EventManager.SendEnemyInstantiated(currentEnemy);
+        StartCoroutine(InstantiateNewEnemyCor());
+
+        enemyCounterAd += 1;
+
+        if (enemyCounterAd == 75)
+        {
+            fullscreeCounter.StartCounter();
+            enemyCounterAd = 0;
+        }
     }
 }

@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class AbilityButton : MonoBehaviour
 {
@@ -13,30 +16,46 @@ public class AbilityButton : MonoBehaviour
 
     private Button btn;
 
+    private int showAdCounter = 0;
+
     private void Awake()
     {
         btn = GetComponent<Button>();
 
         EventManager.OnCharacterInstantiated.AddListener(SetAbilityData);
-    }
+    } 
 
-    public void UseAbility()
+	private void OnEnable()
+	{
+        if (!btn.interactable)
+        {
+			StartCoroutine(UseCooldown());
+		}
+	}
+
+	public void UseAbility()
     {
         if (CheckAbilityPurchased(abilityData))
         {
             Instantiate(abilityData.Ability, spawnPos.position, abilityData.Ability.transform.rotation, spawnPos);
-            UseCooldown();
+            StartCoroutine(UseCooldown());
         }
         else
         {
             PurchaseAbility();
         }
+
+        if (showAdCounter == 15)
+        {
+            YandexGame.FullscreenShow();
+            showAdCounter = 0;
+        }
     }
 
-    private async void UseCooldown()
+    private IEnumerator UseCooldown()
     {
         btn.interactable = false;
-        await Task.Delay(2000);
+        yield return new WaitForSeconds(5);
         btn.interactable = true;
     }
 
@@ -74,6 +93,7 @@ public class AbilityButton : MonoBehaviour
         if (PlayerCoins.instance.Coins - abilityData.Cost >= 0)
         {
             abilityData.Purchased = true;
+            EventManager.SendAbilityPurchased(abilityData);
             PlayerCoins.instance.DecreaseCoins(abilityData.Cost);
             purchaseImg.SetActive(false);
         }

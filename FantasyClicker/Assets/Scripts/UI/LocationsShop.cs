@@ -1,3 +1,5 @@
+
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,10 +18,20 @@ public class LocationsShop : MonoBehaviour
 
     private int pageNum;
 
+    private IEnumerable<LocationData> unlockedLocations;
+
     private void Awake()
     {
         SetLocationData();
+        EventManager.OnLocationPurchased.AddListener(SetUnlockedLocations);
     }
+
+    private void OnEnable() => SetUnlockedLocations();
+
+	private void SetUnlockedLocations(LocationData l = null)
+    {
+		unlockedLocations = locations.Where(l => l.Purchased);
+	}
 
     public void NextPage()
     {
@@ -28,8 +40,10 @@ public class LocationsShop : MonoBehaviour
             pageNum += 1;
 
             SetLocationData();
-        }
-    }
+		}
+
+		EventManager.SendUiClicked();
+	}
 
     public void PrevPage()
     {
@@ -38,8 +52,10 @@ public class LocationsShop : MonoBehaviour
             pageNum -= 1;
 
             SetLocationData();
-        }
-    }
+		}
+
+		EventManager.SendUiClicked();
+	}
 
     public void ChooseLocation()
     {
@@ -64,6 +80,7 @@ public class LocationsShop : MonoBehaviour
         {
             PlayerCoins.instance.DecreaseCoins(locations[pageNum].Cost);
             locations[pageNum].Purchased = true;
+            EventManager.SendLocationPurchaed(locations[pageNum]);
 
             SetBtnToTakeLocation();
         }
@@ -75,12 +92,22 @@ public class LocationsShop : MonoBehaviour
 		{
 			purchaseLocationBtn.gameObject.SetActive(false);
 			chooseLocationBtn.gameObject.SetActive(true);
+            return;
 		}
-		else
+
+        if (unlockedLocations.Contains(locations[pageNum].UnlockLocation))
 		{
+            purchaseLocationBtn.interactable = true;
 			chooseLocationBtn.gameObject.SetActive(false);
 			purchaseLocationBtn.gameObject.SetActive(true);
 			costText.text = locations[pageNum].Cost.ToString();
 		}
+        else
+        {
+            chooseLocationBtn.gameObject.SetActive(false);
+            purchaseLocationBtn.gameObject.SetActive(true);
+            purchaseLocationBtn.interactable = false;
+            costText.text = locations[pageNum].Cost.ToString();
+        }
 	}
 }

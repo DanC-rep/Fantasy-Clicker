@@ -1,31 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using YG;
 
 public class InputController : MonoBehaviour
 {
     private IAttacker attacker;
 
+    private bool canInputAttack = true;
+
     private void Awake()
     {
-        attacker = GetComponent<IAttacker>();
+		EventManager.OnTutorialShowed.AddListener(EnableCanInputAttack);
+
+		attacker = GetComponent<IAttacker>();
     }
 
-    private void ReadAttack()
+
+	public void ReadAttack()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (!canInputAttack)
         {
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            attacker.Attack();
-        }
+        attacker.Attack();
     }
 
-    private void Update()
+    private void EnableCanInputAttack(bool showed)
     {
-        ReadAttack();
-    }
+        canInputAttack = showed;
+	}
 }
 

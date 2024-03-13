@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78f9e3a3dc20de4ab975b863de9c2f2, type: 3}
   m_Name: ThunderAbility2
   m_EditorClassIdentifier: 
-  cost: 70
+  id: 7
+  cost: 2500
   icon: {fileID: -1239767062, guid: adb147c788055d74badf600c4aad8f03, type: 3}
   ability: {fileID: 7384661218860545250, guid: c2fe628d1d54b6d4f8b33f883ed6a218, type: 3}
   purchased: 1

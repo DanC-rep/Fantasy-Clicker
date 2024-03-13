@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e8bc218d558374499bd133d3d8949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 300
-  name: Skeleton
-  reward: 10
+  maxHealth: 3000
+  name: "\u0421\u043A\u0435\u043B\u0435\u0442 \u0441 \u043A\u043E\u043F\u044C\u0435\u043C"
+  reward: 13
+  killCount: 0
+  id: 9
 --- !u!114 &2490746978123675517
 MonoBehaviour:
   m_ObjectHideFlags: 0

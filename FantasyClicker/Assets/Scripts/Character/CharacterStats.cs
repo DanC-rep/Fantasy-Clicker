@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
@@ -12,30 +14,53 @@ public class CharacterStats : MonoBehaviour
     private int critChanceLvl;
 
     [SerializeField] private AbilityData[] abilities;
+    [SerializeField] private HeroData heroInfo;
 
-    public int Damage => damage;
     public int CritChance => critChance;
     public int CritDamage => critDamage;
+    public int BaseDamage => damage;
 
     public AbilityData[] Abilities => abilities;
     public bool AbilityCell1Occupied { get; set; }
     public bool AbilityCell2Occupied { get; set; }
 
-    public void UpgradeStat(StatToUpgrade stat, int value)
+    public HeroData HeroInfo => heroInfo;
+
+	private void Start()
+	{
+        damageLvl = heroInfo.DamageLvl;
+        critChanceLvl = heroInfo.CritChanceLvl;
+        critDamageLvl = heroInfo.CritDamageLvl;
+
+        damage = heroInfo.Damage;
+        critChance = heroInfo.CritChance;
+        critDamage = heroInfo.CritDamage;
+	}
+
+	public void UpgradeStat(StatToUpgrade stat, int value)
     {
         switch (stat)
         {
             case StatToUpgrade.Damage:
                 damage += value;
                 damageLvl += 1;
+
+                heroInfo.Damage = damage;
+                heroInfo.DamageLvl = damageLvl;
                 break;
             case StatToUpgrade.CritDamage:
                 critDamage += value;
                 critDamageLvl += 1;
+
+                heroInfo.CritDamage = critDamage;
+                heroInfo.CritDamageLvl = critDamageLvl;
                 break;
             case StatToUpgrade.CritChance:
                 critChance += value;
                 critChanceLvl += 1;
+
+                heroInfo.CritChance = critChance;
+                heroInfo.CritChanceLvl = critChanceLvl;
                 break;
         }
     }
@@ -70,11 +95,38 @@ public class CharacterStats : MonoBehaviour
 		}
 	}
 
-    public async void DoubleDamage()
+    private bool doubleDamage;
+    private bool doubleDamageReward;
+
+    private IEnumerator DoubleDamage()
     {
-        int currentDmg = damage;
-        damage *= 2;
-        await Task.Delay(5000);
-        damage = currentDmg;
+        doubleDamage = true;
+        yield return new WaitForSeconds(5);
+        doubleDamage = false;
+    }
+
+    private IEnumerator DoubleDamageReward()
+    {
+        doubleDamageReward = true;
+        yield return new WaitForSeconds(60);
+        doubleDamageReward = false;
+    }
+
+    public void StartDoubleDamage()
+    {
+        StartCoroutine(DoubleDamage());
+    }
+
+    public void StartDoubleDamageReward()
+    {
+        StartCoroutine(DoubleDamageReward());
+    }
+
+    public int GetDamage()
+    {
+        int value = doubleDamage ? 2 : 1;
+        int valueReward = doubleDamageReward ? 2 : 1;
+        Debug.Log(damage * value * valueReward);
+        return damage * value * valueReward;
     }
 }

@@ -1,72 +1,74 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuPanel : MonoBehaviour
 {
+	[SerializeField] private Image background;
+
     [SerializeField] private GameObject statsShop;
     [SerializeField] private GameObject heroesShop;
     [SerializeField] private GameObject locationsShop;
+    [SerializeField] private GameObject statistic;
 
-    [SerializeField] private GameObject[] uiToHideStatsShop;
-    [SerializeField] private GameObject[] uiToHideHeroesShop;
-    [SerializeField] private GameObject[] uiToHideLocationsShop;
+	[SerializeField] private List<Button> btns;
 
-    public void OpenStatsShop()
+	[SerializeField] private GameObject[] uiToHide;
+
+	private GameObject[] shops;
+
+	private void Awake()
+	{
+		EventManager.OnTutorialShowed.AddListener(SetBtnsInteractible);
+
+		shops = new GameObject[] { statsShop, heroesShop, locationsShop, statistic };
+	}
+
+	public void ShowStatsShop() => ShowElement(statsShop);
+
+	public void ShowHeroesShop() => ShowElement(heroesShop);
+
+	public void ShowLocationsShop() => ShowElement(locationsShop);
+
+	public void ShowStatistic() => ShowElement(statistic);
+
+	private void ShowElement(GameObject el)
     {
-        statsShop.SetActive(true);
+		if (el.activeSelf)
+		{
+			el.SetActive(false);
+			background.enabled = false;
 
-        foreach (var ui in uiToHideStatsShop)
-        {
-            ui.SetActive(false);
-        }
-    }
+			foreach (var ui in uiToHide)
+			{
+				ui.SetActive(true);
+			}
 
-    public void CloseStatsShop()
-    {
-        statsShop.SetActive(false);
+			EventManager.SendUiClicked();
+			return;
+		}
 
-        foreach (var ui in uiToHideStatsShop)
-        {
-            ui.SetActive(true);
-        }
-    }
+		el.SetActive(true);
+		background.enabled = true;
 
-    public void OpenHeroesShop()
-    {
-        heroesShop.SetActive(true);
+		foreach (var ui in uiToHide)
+		{
+			ui.SetActive(false);
+		}
 
-        foreach (var ui in uiToHideHeroesShop)
-        {
-            ui.SetActive(false);
-        }
-    }
+		foreach (var shop in shops)
+		{
+			if (shop != el)
+			{
+				shop.SetActive(false);
+			}
+		}
 
-    public void CloseHeroesShop()
-    {
-        heroesShop.SetActive(false);
+		EventManager.SendUiClicked();
+	}
 
-        foreach (var ui in uiToHideHeroesShop)
-        {
-            ui.SetActive(true);
-        }
-    }
-
-    public void OpenLocationsShop()
-    {
-        locationsShop.SetActive(true);
-
-        foreach (var ui in uiToHideLocationsShop)
-        {
-            ui.SetActive(false);
-        }
-    }
-
-    public void CloseLocationsShop()
-    {
-        locationsShop.SetActive(false);
-
-        foreach (var ui in uiToHideLocationsShop)
-        {
-            ui.SetActive(true);
-        }
-    }
+	private void SetBtnsInteractible(bool showed)
+	{
+		btns.ForEach(btn => btn.interactable = showed);
+	}
 }

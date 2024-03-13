@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class HeroShop : MonoBehaviour
 {
@@ -25,13 +27,25 @@ public class HeroShop : MonoBehaviour
 
     private GameObject currentHero;
 
+    private IEnumerable<LocationData> unlockedLocations;
+
     private void Awake()
     {
         currentHero = HeroesManager.instance.CurrentHero.gameObject;
-        SetHeroData();
     }
 
-    public void NextPage()
+	private void OnEnable()
+	{
+		SetUnlockedHeroes();
+		SetHeroData();
+	}
+
+    private void SetUnlockedHeroes()
+    {
+        unlockedLocations = locations.Where(l => l.Purchased);
+    }
+
+	public void NextPage()
     {
         if (pageNum < heroes.Length - 1)
         {
@@ -40,7 +54,9 @@ public class HeroShop : MonoBehaviour
             SetHeroData();
             SetCanPurchaseHero();
         }
-    }
+
+		EventManager.SendUiClicked();
+	}
 
     public void PrevPage()
     {
@@ -50,8 +66,10 @@ public class HeroShop : MonoBehaviour
 
             SetHeroData();
             SetCanPurchaseHero();
-        }
-    }
+		}
+
+		EventManager.SendUiClicked();
+	}
 
     public void PurchaseHero()
     {
@@ -59,6 +77,8 @@ public class HeroShop : MonoBehaviour
 		{
 			PlayerCoins.instance.DecreaseCoins(heroes[pageNum].Cost);
 			heroes[pageNum].Purchased = true;
+            EventManager.SendHeroPurchased(heroes[pageNum]);
+            YandexGame.FullscreenShow();
 
             ChooseHero();
             SetBtnToTakeHero();
@@ -73,21 +93,22 @@ public class HeroShop : MonoBehaviour
 		}
 
 		currentHero = Instantiate(heroes[pageNum].Hero, heroSpawnPoint.position, heroes[pageNum].Hero.transform.rotation, heroSpawnPoint);
-    }
+
+		EventManager.SendUiClicked();
+	}
 
     private void SetHeroData()
     {
-        CharacterStats stats = heroes[pageNum].Hero.GetComponent<CharacterStats>();
 
         heroImg.sprite = heroes[pageNum].Icon;
-        damage.text = stats.Damage.ToString();
-        critDamage.text = stats.CritDamage.ToString();
-        critChance.text = stats.CritChance.ToString();
+        damage.text = heroes[pageNum].Damage.ToString();
+        critDamage.text = heroes[pageNum].CritDamage.ToString();
+        critChance.text = heroes[pageNum].CritChance.ToString();
 
         SetBtnToTakeHero();
     }
 
-    private bool CheckUnlockedHero() => locations.Contains(heroes[pageNum].UnlockLocation) ? true : false;
+    private bool CheckUnlockedHero() => unlockedLocations.Contains(heroes[pageNum].UnlockLocation) ? true : false;
     private void SetCanPurchaseHero() => purchaseHeroBtn.interactable = CheckUnlockedHero() ? true : false;
 
     private void SetBtnToTakeHero()

@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e8bc218d558374499bd133d3d8949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
-  name: Slime
-  reward: 6
+  maxHealth: 850
+  name: "\u0421\u043B\u0430\u0439\u043C"
+  reward: 9
+  killCount: 0
+  id: 10
 --- !u!114 &7455320813386528828
 MonoBehaviour:
   m_ObjectHideFlags: 0

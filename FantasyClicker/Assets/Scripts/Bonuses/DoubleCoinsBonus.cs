@@ -7,7 +7,7 @@ public class DoubleCoinsBonus : Bonus
 
     protected override void Use()
     {
-        PlayerCoins.instance.DoubleCoins();
+        PlayerCoins.instance.StartDoubleCoins();
         EventManager.SendBonusDestroyed();
         Destroy(gameObject);
     }

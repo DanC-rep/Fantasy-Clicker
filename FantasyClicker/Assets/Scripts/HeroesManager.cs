@@ -13,7 +13,7 @@ public class HeroesManager : MonoBehaviour
         instance = this;
     }
 
-    [SerializeField] private GameObject hero;
+    public GameObject Hero { get; set; }
     [SerializeField] private Transform heroSpawnPoint;
 
     private CharacterStats currentHero;
@@ -21,9 +21,13 @@ public class HeroesManager : MonoBehaviour
 
     private void Start()
     {
-        currentHero = Instantiate(hero, heroSpawnPoint.position, hero.transform.rotation, heroSpawnPoint).GetComponent<CharacterStats>();
         EventManager.OnCharacterInstantiated.AddListener(ChangeCurrentHero);
     }
+
+    public void InstantiateHero()
+    {
+		currentHero = Instantiate(Hero, heroSpawnPoint.position, Hero.transform.rotation, heroSpawnPoint).GetComponent<CharacterStats>();
+	}
 
     private void ChangeCurrentHero(CharacterStats stats)
     {

@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class UpgradeStats : MonoBehaviour
 {
     [SerializeField] private StatToUpgrade statToUpgrade;
     [SerializeField] private Text costText;
-    [SerializeField] private int cost;
+    private int cost;
     [SerializeField] private int upgradeValue;
     [SerializeField] private int maxUpgradeLvl;
     [SerializeField] private Text statValue;
@@ -13,6 +14,14 @@ public class UpgradeStats : MonoBehaviour
 
     private void Awake()
     {
+        if (HeroesManager.instance.CurrentHero.HeroInfo.Cost == 0)
+        {
+			cost = 15;
+		}
+        else
+        {
+			cost = HeroesManager.instance.CurrentHero.HeroInfo.Cost / 10;
+		}
         costText.text = cost.ToString();
         statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
     }
@@ -24,10 +33,13 @@ public class UpgradeStats : MonoBehaviour
             HeroesManager.instance.CurrentHero.UpgradeStat(statToUpgrade, upgradeValue);
             PlayerCoins.instance.DecreaseCoins(cost);
             statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
+            EventManager.SendHeroStatsUpgraded(HeroesManager.instance.CurrentHero.HeroInfo);
         }
 
-        DisablePurchaseBtnOnMaxLvl();
-    }
+        DisablePurchaseBtnOnMaxLvl(true);
+
+		EventManager.SendUiClicked();
+	}
 
     private bool CheckEnoughGold()
     {
@@ -36,16 +48,37 @@ public class UpgradeStats : MonoBehaviour
 
     private void OnEnable()
     {
-        statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
+		if (HeroesManager.instance.CurrentHero.HeroInfo.Cost == 0)
+		{
+			cost = 15;
+		}
+		else
+		{
+			cost = HeroesManager.instance.CurrentHero.HeroInfo.Cost / 10;
+		}
+		costText.text = cost.ToString();
+
+		statValue.text = HeroesManager.instance.CurrentHero.GetStatValue(statToUpgrade).ToString();
+
+        DisablePurchaseBtnOnMaxLvl();
     }
 
     private bool CheckNotReachMaxLvl(StatToUpgrade stat) => HeroesManager.instance.CurrentHero.GetStatLvl(stat) < maxUpgradeLvl;
 
-    private void DisablePurchaseBtnOnMaxLvl()
+    private void DisablePurchaseBtnOnMaxLvl(bool showAd = false)
     {
         if (!CheckNotReachMaxLvl(statToUpgrade))
         {
             purchaseBtn.interactable = false;
+
+            if (showAd)
+            {
+                YandexGame.FullscreenShow();
+            }
+        }
+        else
+        {
+            purchaseBtn.interactable = true;
         }
     }
 

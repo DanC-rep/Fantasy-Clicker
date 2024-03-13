@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e8bc218d558374499bd133d3d8949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500
-  name: King
-  reward: 100
+  maxHealth: 6000
+  name: "\u041A\u043E\u0440\u043E\u043B\u044C"
+  reward: 17
+  killCount: 0
+  id: 4
 --- !u!114 &2332259064518475612
 MonoBehaviour:
   m_ObjectHideFlags: 0

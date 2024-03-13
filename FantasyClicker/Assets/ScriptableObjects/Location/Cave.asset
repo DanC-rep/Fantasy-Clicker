@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfef0b49396b7142b48e9b4fd328bd2, type: 3}
   m_Name: Cave
   m_EditorClassIdentifier: 
+  id: 2
   sceneName: Cave
   image: {fileID: 21300000, guid: 909138c9a8aa2254cb176db51664dd0b, type: 3}
-  cost: 100
+  cost: 800
   bonuses:
   - "2x \u0437\u043E\u043B\u043E\u0442\u0430"
   - "\u041D\u043E\u0432\u044B\u0435 \u0433\u0435\u0440\u043E\u0438"
   - "\u041D\u043E\u0432\u044B\u0435 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0438"
-  purchased: 1
+  purchased: 0
+  unlockLocation: {fileID: 11400000, guid: 550a570e8c893aa429b22c1e8912a737, type: 2}
   moneyModifier: 2
   unlockedEnemies:
   - {fileID: 7945789136925614685, guid: ba182999f5b2d9144af19f8cac0e5592, type: 3}
@@ -30,7 +32,3 @@ MonoBehaviour:
   - {fileID: 561048118085656358, guid: 86ccd9889a121a646823a8552553793b, type: 3}
   - {fileID: 6265728333020368703, guid: 273df1dd9995bab4cb90944caeb4097f, type: 3}
   - {fileID: 4278667516449384081, guid: 0d65da7a1ad9bf54fae126b62a35580d, type: 3}
-  unlockedHeroes:
-  - {fileID: 4967755362299433650, guid: dfee6155743f88242b2526dd5838b5b8, type: 3}
-  - {fileID: 6150949676802216534, guid: 9a2fcbe5b8849144a821da0ccebf2bae, type: 3}
-  - {fileID: 996576029465756759, guid: a2af5c90c3c1fc241bc7927efb65888c, type: 3}

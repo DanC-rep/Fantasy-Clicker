@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e8bc218d558374499bd133d3d8949e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 300
-  name: Archer
-  reward: 10
+  maxHealth: 90
+  name: "\u041B\u0443\u0447\u043D\u0438\u043A"
+  reward: 4
+  killCount: 0
+  id: 0
 --- !u!114 &4181684195167863334
 MonoBehaviour:
   m_ObjectHideFlags: 0

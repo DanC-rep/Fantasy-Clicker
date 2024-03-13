@@ -7,7 +7,7 @@ public class DoubleDamageBonus : Bonus
 
     protected override void Use()
     {
-        HeroesManager.instance.CurrentHero.DoubleDamage();
+        HeroesManager.instance.CurrentHero.StartDoubleDamage();
         EventManager.SendBonusDestroyed();
         Destroy(gameObject);
     }

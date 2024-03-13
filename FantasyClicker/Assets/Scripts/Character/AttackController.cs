@@ -11,9 +11,9 @@ public class AttackController
 
     private int CalculateDamage(int damage, int critChance, int critDamage)
     {
-        int chance = Random.Range(0, 101);
+        int chance = Random.Range(1, 101);
         bool critHappened = critChance >= chance;
-        var critAdded = critHappened ? critChance : 0;
+        var critAdded = critHappened ? critDamage : 0;
 
         return damage + critAdded;
     }

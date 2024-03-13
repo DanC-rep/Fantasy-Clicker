@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfef0b49396b7142b48e9b4fd328bd2, type: 3}
   m_Name: Forest
   m_EditorClassIdentifier: 
+  id: 0
   sceneName: Forest
   image: {fileID: 21300000, guid: b0345eb7bb0b77d41ac14eeff31ffc96, type: 3}
   cost: 0
   bonuses:
-  - "\u043D\u0435\u0442"
-  - "\u043D\u0435\u0442"
-  - "\u043D\u0435\u0442"
+  - "\u041D\u0435\u0442"
+  - "\u041D\u0435\u0442"
+  - "\u041D\u0435\u0442"
   purchased: 1
+  unlockLocation: {fileID: 11400000}
   moneyModifier: 1
   unlockedEnemies:
   - {fileID: 7945789136925614685, guid: ba182999f5b2d9144af19f8cac0e5592, type: 3}
   - {fileID: 4156051536613042566, guid: ac06c597eb45a3440a6b00a646d11471, type: 3}
   - {fileID: 8163902771158392353, guid: 7829db2daa243ca428c97d40c9ebdecc, type: 3}
   - {fileID: 8443957167190621526, guid: 982590ddee70ff449968ce5789678d69, type: 3}
-  unlockedHeroes:
-  - {fileID: 4967755362299433650, guid: dfee6155743f88242b2526dd5838b5b8, type: 3}
