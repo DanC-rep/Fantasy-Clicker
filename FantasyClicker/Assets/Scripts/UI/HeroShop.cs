@@ -78,7 +78,6 @@ public class HeroShop : MonoBehaviour
 			PlayerCoins.instance.DecreaseCoins(heroes[pageNum].Cost);
 			heroes[pageNum].Purchased = true;
             EventManager.SendHeroPurchased(heroes[pageNum]);
-            YandexGame.FullscreenShow();
 
             ChooseHero();
             SetBtnToTakeHero();

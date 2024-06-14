@@ -10,7 +10,7 @@ public class EnemyFactory : MonoBehaviour
 
     [SerializeField] private Transform spawnPos;
     [SerializeField] private LocationData location;
-    [SerializeField] private FullscreenCounter fullscreeCounter;
+    [SerializeField] private FullscreenCounter fullscreenCounter;
 
 	private GameObject[] enemies => location.UnlockedEnemies;
 
@@ -57,9 +57,9 @@ public class EnemyFactory : MonoBehaviour
 
         enemyCounterAd += 1;
 
-        if (enemyCounterAd == 75)
+        if (enemyCounterAd == 65)
         {
-            fullscreeCounter.StartCounter();
+            fullscreenCounter.StartCounter();
             enemyCounterAd = 0;
         }
     }

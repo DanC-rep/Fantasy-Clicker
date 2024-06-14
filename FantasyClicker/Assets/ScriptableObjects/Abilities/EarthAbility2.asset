@@ -16,4 +16,4 @@ MonoBehaviour:
   cost: 1000
   icon: {fileID: 1541431637, guid: caa61840c4e7f7e4dab05a9ea90a9578, type: 3}
   ability: {fileID: 7049293594279937412, guid: be4a6987d89b9524eb3c6b1d9ca8aa37, type: 3}
-  purchased: 1
+  purchased: 0

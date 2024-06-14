@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d991d4a2ba33df443855924af39a5183, type: 3}
   hero: {fileID: 6605216462568328546, guid: 5ce4c24f8caaf9b4b975d6fb7d2965e1, type: 3}
   unlockLocation: {fileID: 11400000, guid: 83c3f7e1153cb2048bb3d004cf9b5078, type: 2}
-  purchased: 1
+  purchased: 0
   damage: 100
   critChance: 40
   critDamage: 50

@@ -1250,6 +1250,8 @@ namespace YG
             else if (lang == "ru" && !infoYG.languages.ru)
                 lang = "en";
 
+            lang = "en";
+
             Message("Language Request: Lang - " + lang);
             savesData.language = lang;
             SwitchLangEvent?.Invoke(lang);
@@ -1463,7 +1465,7 @@ namespace YG
 
         public class JsonEnvironmentData
         {
-            public string language = "ru";
+            public string language = "en";
             public string domain = "ru";
             public string deviceType = "desktop";
             public bool isMobile;

@@ -11,6 +11,7 @@ public class AbilityButton : MonoBehaviour
     [SerializeField] private Image abilityImg;
     [SerializeField] private GameObject purchaseImg;
     [SerializeField] private Text costText;
+    [SerializeField] FullscreenCounter fullscreen;
     
     private AbilityData abilityData;
 
@@ -44,10 +45,11 @@ public class AbilityButton : MonoBehaviour
         {
             PurchaseAbility();
         }
+        showAdCounter += 1;
 
-        if (showAdCounter == 15)
+        if (showAdCounter == 10)
         {
-            YandexGame.FullscreenShow();
+            fullscreen.StartCounter();
             showAdCounter = 0;
         }
     }
